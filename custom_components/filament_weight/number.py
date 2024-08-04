@@ -40,17 +40,13 @@ def setup_platform(hass, config, add_entities, discovery_info=None):
 async def async_setup_entry(
     hass: HomeAssistant, entry: ConfigEntry, async_add_entities
 ):
-    brandToId = ""
+    brand = ""
 
-    if (
-        CONF_BRAND in entry.options
-        and entry.options[CONF_BRAND] is not None
-        and entry.options[CONF_BRAND] != "unknown"
-    ):
-        brandToId = f"{entry.options[CONF_BRAND]}_"
+    if CONF_BRAND in entry.options:
+        brand = entry.options[CONF_BRAND]
 
     unique_id = generateId(
-        entry.options[CONF_BRAND],
+        brand,
         entry.options[CONF_TYPE],
         entry.options[CONF_COLOR_HEX],
     )
