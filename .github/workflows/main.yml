@@ -46,21 +46,11 @@ jobs:
           filename: "Source code.zip"
           exclusions: "*.git* /*node_modules/* .editorconfig"
 
-      - name: Read release notes
-        id: read_notes
-        run: |
-          if [ -f release_notes.txt ]; then
-            cat release_notes.txt
-          else
-            echo "No release notes found."
-          fi
-          echo ::set-output name=body::$(cat release_notes.txt | sed -e 's/[&]/\\&/g')
-
       - name: Upload Release
         uses: ncipollo/release-action@v1.12.0
         with:
           tag: ${{ steps.increment_tag.outputs.tag }}
           artifacts: "Source code.zip"
-          body: ${{ steps.read_notes.outputs.body }}
+          body: "release_notes.md"
           draft: false
           prerelease: false
