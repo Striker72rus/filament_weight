@@ -1,9 +1,10 @@
-# Filament Weight
 [![hacs_badge](https://img.shields.io/badge/HACS-Custom-orange.svg)](https://github.com/custom-components/hacs)
 ![](https://img.shields.io/github/watchers/Striker72rus/filament_weight.svg)
 ![](https://img.shields.io/github/stars/Striker72rus/filament_weight.svg)
 
 [![Donate](https://img.shields.io/badge/donate-Tinkoff-yellow.svg)](https://www.tinkoff.ru/rm/dontsov.sergey22/KEZ6r54259)
+
+# [![](images/dark_logo.png)](https://github.com/Striker72rus/filament_weight)
 
 # Дисклеймер
 Проект ещё не окончен. Данную интеграцию делал изначально для себя, доработки и пожелания приветствуются.

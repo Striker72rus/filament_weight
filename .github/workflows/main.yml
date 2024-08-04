@@ -51,6 +51,6 @@ jobs:
         with:
           tag: ${{ steps.increment_tag.outputs.tag }}
           artifacts: "Source code.zip"
-          body: "release_notes.md"
+          body: release_notes.md
           draft: false
           prerelease: false
