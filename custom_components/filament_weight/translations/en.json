@@ -1,0 +1,38 @@
+{
+  "config": {
+      "step": {
+          "user": {
+              "title": "Add a new filament spool profile",
+              "description": "",
+              "data": {
+                  "name": "Name",
+                  "type": "Plastic type",
+                  "weight": "Weight",
+                  "hex_code": "HEX plastic color code"
+              }
+          }
+      },
+      "abortion": {
+          "title": "Addition error",
+          "already_exists": "A filament with such parameters already exists."
+      },
+      "error": {
+          "invalid_value_weight": "Invalid weight value",
+          "invalid_value_color": "Invalid color value"
+      }
+  },
+  "options": {
+      "step": {
+          "init": {
+              "title": "Change filament spool profile",
+              "description": "",
+              "data": {
+                  "name": "Name",
+                  "type": "Plastic type",
+                  "weight": "Weight",
+                  "hex_code": "HEX plastic color code"
+              }
+          }
+      }
+  }
+}

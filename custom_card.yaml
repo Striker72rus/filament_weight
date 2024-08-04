@@ -1,0 +1,209 @@
+type: custom:auto-entities
+card:
+  square: false
+  type: grid
+  columns: 2
+  title: PLA # Меняете название
+card_param: cards
+filter:
+  template: |-
+    {%- set filterType = 'PLA' %} # Меняете Тип пластика, который необходим для отображения
+    {%- set callService = 'bambu_lab.model_serial_change_filament_spool_ams' %} # model_serial_change_filament_spool_ams - заменяете на свой сервис, нужного принтера
+    {% for x in states.number -%}
+      {%- if x.entity_id.startswith('number.filament_') -%}
+        {%- set friendly_name = state_attr(x.entity_id, 'friendly_name') %}
+        {%- set color_name = state_attr(x.entity_id, 'color_hex') %}
+        {%- set type = state_attr(x.entity_id, 'type') %}
+        {%- set color_name_rgb = state_attr(x.entity_id, 'color_rgb') %}
+        {%- if friendly_name is not none and state_attr(x.entity_id, 'type') == filterType and x.state != 'unavailable' and x.state | float > 0 -%}
+          {%- set truncated_friendly_name = friendly_name.split(' ', 1)[1] if ' ' in friendly_name else friendly_name -%}
+          {{
+              {
+                'type': 'custom:mushroom-template-card',
+                'entity': x.entity_id,
+                'primary': friendly_name,
+                'secondary': x.state + ' грамм',
+                'icon': 'phu:3d-filament',
+                'icon_color': color_name,
+                'fill_container': true,
+                'double_tap_action': {
+                  'action': 'more-info'
+                },
+                'tap_action': {
+                  'action': 'fire-dom-event',
+                  'browser_mod': {
+                    'service': 'browser_mod.popup',
+                    'data': {
+                      'right_button': 'Close',
+                      'right_button_action': 'close',
+                      'title': friendly_name,
+                      'content': {
+                        'type': 'vertical-stack',
+                        'cards': [
+                          {
+                                'type': 'custom:button-card',
+                                'name': "Тип: " +type + "<br>Цвет: " + color_name,
+                                'color_type': "card",
+                                'color': color_name,
+                                'tap_action': 'none'
+                          },
+                          {
+                            'type': 'markdown',
+                            'content': "### Выберите ячейку, в которую установить данную катушку:",
+                            'tap_action': {
+                              'action': 'none'
+                            }
+                          },
+                          {
+                              'type': 'custom:button-card',
+                              'name': '0',
+                            'tap_action': {
+                              'action': 'call-service',
+                              'service': 'script.multi_tap_action',
+                              'service_data':{
+                                'actions':[
+                                  {
+                                    'service': callService,
+                                    'data': {
+                                      'ams': 255,
+                                      'tray': 254,
+                                      'type': type,
+                                      'color': color_name.replace('#', '')
+                                    }
+                                  },
+                                  {
+                                    'service': 'browser_mod.close_popup',
+                                    'data': {
+                                      'deviceID': 'this'
+                                    }
+                                  }
+                                ]
+                              }
+
+                            }
+                          },
+                          {
+                            'type': 'horizontal-stack',
+                            'cards': [
+                              {
+                                'type': 'custom:button-card',
+                                'name': '1',
+                                'tap_action': {
+                                  'action': 'call-service',
+                                  'service': 'script.multi_tap_action',
+                                  'service_data':{
+                                    'actions':[
+                                      {
+                                        'service': callService,
+                                        'data': {
+                                          'ams': 0,
+                                          'tray': 0,
+                                          'type': type,
+                                          'color': color_name.replace('#', '')
+                                        }
+                                      },
+                                      {
+                                        'service': 'browser_mod.close_popup',
+                                        'data': {
+                                          'deviceID': 'this'
+                                        }
+                                      }
+                                    ]
+                                  }
+                                }
+                              },
+                              {
+                                'type': 'custom:button-card',
+                                'name': '2',
+                                'tap_action': {
+                                  'action': 'call-service',
+                                  'service': 'script.multi_tap_action',
+                                  'service_data':{
+                                    'actions':[
+                                      {
+                                        'service': callService,
+                                        'data': {
+                                          'ams': 0,
+                                          'tray': 1,
+                                          'type': type,
+                                          'color': color_name.replace('#', '')
+                                        }
+                                      },
+                                      {
+                                        'service': 'browser_mod.close_popup',
+                                        'data': {
+                                          'deviceID': 'this'
+                                        }
+                                      }
+                                    ]
+                                  }
+                                }
+                              },
+                              {
+                                'type': 'custom:button-card',
+                                'name': '3',
+                                'tap_action': {
+                                  'action': 'call-service',
+                                  'service': 'script.multi_tap_action',
+                                  'service_data':{
+                                    'actions':[
+                                      {
+                                        'service': callService,
+                                        'data': {
+                                          'ams': 0,
+                                          'tray': 2,
+                                          'type': type,
+                                          'color': color_name.replace('#', '')
+                                        }
+                                      },
+                                      {
+                                        'service': 'browser_mod.close_popup',
+                                        'data': {
+                                          'deviceID': 'this'
+                                        }
+                                      }
+                                    ]
+                                  }
+                                }
+                              },
+                              {
+                                'type': 'custom:button-card',
+                                'name': '4',
+                                'tap_action': {
+                                  'action': 'call-service',
+                                  'service': 'script.multi_tap_action',
+                                  'service_data':{
+                                    'actions':[
+                                      {
+                                        'service': callService,
+                                        'data': {
+                                          'ams': 0,
+                                          'tray': 3,
+                                          'type': type,
+                                          'color': color_name.replace('#', '')
+                                        }
+                                      },
+                                      {
+                                        'service': 'browser_mod.close_popup',
+                                        'data': {
+                                          'deviceID': 'this'
+                                        }
+                                      }
+                                    ]
+                                  }
+                                }
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    },
+                    'deviceID': 'this',
+                  }
+                }
+              }
+          }},
+        {%- endif -%}
+      {%- endif -%}
+    {%- endfor %}
+show_empty: false

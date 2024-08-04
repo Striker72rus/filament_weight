@@ -1,0 +1,66 @@
+name: Create and Upload Release Archive
+
+on:
+  push:
+    branches:
+      - main
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Get latest tag
+        id: get_latest_tag
+        uses: actions-ecosystem/action-get-latest-tag@v1
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Increment tag
+        id: increment_tag
+        run: |
+          latest_tag="${{ steps.get_latest_tag.outputs.tag }}"
+          echo "Latest tag: $latest_tag"
+          if [ -z "$latest_tag" ]; then
+            new_tag="v0.0.1"
+          else
+            latest_version=${latest_tag#v}
+            new_version=$(echo $latest_version | awk -F. -v OFS=. '{$NF++; print}')
+            new_tag="v$new_version"
+          fi
+          echo "New tag: $new_tag"
+          echo ::set-output name=tag::$new_tag
+
+      - name: Create new tag
+        run: |
+          git tag ${{ steps.increment_tag.outputs.tag }}
+          git push origin ${{ steps.increment_tag.outputs.tag }}
+
+      - name: Archive Release
+        uses: thedoctor0/zip-release@0.7.5
+        with:
+          type: "zip"
+          path: "custom_components/filament_weight"
+          filename: "Source code.zip"
+          exclusions: "*.git* /*node_modules/* .editorconfig"
+
+      - name: Read release notes
+        id: read_notes
+        run: |
+          if [ -f release_notes.txt ]; then
+            cat release_notes.txt
+          else
+            echo "No release notes found."
+          fi
+          echo ::set-output name=body::$(cat release_notes.txt | sed -e 's/[&]/\\&/g')
+
+      - name: Upload Release
+        uses: ncipollo/release-action@v1.12.0
+        with:
+          tag: ${{ steps.increment_tag.outputs.tag }}
+          artifacts: "Source code.zip"
+          body: ${{ steps.read_notes.outputs.body }}
+          draft: false
+          prerelease: false
