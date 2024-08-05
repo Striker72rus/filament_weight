@@ -3,25 +3,585 @@ card:
   square: false
   type: grid
   columns: 2
-  title: PLA # Меняете название
+  title: PLA
 card_param: cards
+sort:
+  method: name
 filter:
-  template: |-
-    {%- set filterType = 'PLA' %} # Меняете Тип пластика, который необходим для отображения
-    {%- set callService = 'bambu_lab.model_serial_change_filament_spool_ams' %} # model_serial_change_filament_spool_ams - заменяете на свой сервис, нужного принтера
+  template: >-
+    {%- set filterType = 'PLA' %} # МЕНЯЕТЕ НА НУЖНЫЙ ТИП
+
+    {%- set callService = 'bambu_lab.model_serial_change_filament_spool_ams' %} # МЕНЯЕТЕ НА СВОЙ СЕРВИС
+    {%- set printer_id = callService.split('.')[1].split('_')[0] + "_" + callService.split('.')[1].split('_')[1] %}
+
+    {%- set ams_sensors = [
+      'sensor.' + printer_id + '_ams_1_tray_1',
+      'sensor.' + printer_id + '_ams_2_tray_1',
+      'sensor.' + printer_id + '_ams_3_tray_1',
+      'sensor.' + printer_id + '_ams_4_tray_1'
+    ] %}
+
+
     {% for x in states.number -%}
       {%- if x.entity_id.startswith('number.filament_') -%}
         {%- set friendly_name = state_attr(x.entity_id, 'friendly_name') %}
         {%- set color_name = state_attr(x.entity_id, 'color_hex') %}
         {%- set type = state_attr(x.entity_id, 'type') %}
         {%- set color_name_rgb = state_attr(x.entity_id, 'color_rgb') %}
+        {%- set cardAms = [] %}
+
+        {%- if states(ams_sensors[0]) != 'unknown' %}
+            {%- set cardAms = cardAms + [
+            {
+                  'type': 'markdown',
+                  'content': "### AMS 1:",
+                  'tap_action': {
+                    'action': 'none'
+                  }
+            },
+            {
+            'type': 'horizontal-stack',
+              'cards': [
+                {
+                  'type': 'custom:button-card',
+                  'name': '1',
+                  'styles': {
+                    'card': [{'height': '100px'}],
+                  },
+                  'tap_action': {
+                    'action': 'call-service',
+                    'service': 'script.multi_tap_action',
+                    'service_data':{
+                      'actions':[
+                        {
+                          'service': callService,
+                          'data': {
+                            'ams': 0,
+                            'tray': 0,
+                            'type': type,
+                            'color': color_name.replace('#', '')
+                          }
+                        },
+                        {
+                          'service': 'browser_mod.close_popup',
+                          'data': {
+                            'deviceID': 'this'
+                          }
+                        }
+                      ]
+                    }
+                  },
+                },
+                {
+                  'type': 'custom:button-card',
+                  'name': '2',
+                  'styles': {
+                    'card': [{'height': '100px'}],
+                  },
+                  'tap_action': {
+                    'action': 'call-service',
+                    'service': 'script.multi_tap_action',
+                    'service_data':{
+                      'actions':[
+                        {
+                          'service': callService,
+                          'data': {
+                            'ams': 0,
+                            'tray': 1,
+                            'type': type,
+                            'color': color_name.replace('#', '')
+                          }
+                        },
+                        {
+                          'service': 'browser_mod.close_popup',
+                          'data': {
+                            'deviceID': 'this'
+                          }
+                        }
+                      ]
+                    }
+                  },
+                },
+                {
+                  'type': 'custom:button-card',
+                  'name': '3',
+                  'styles': {
+                    'card': [{'height': '100px'}],
+                  },
+                  'tap_action': {
+                    'action': 'call-service',
+                    'service': 'script.multi_tap_action',
+                    'service_data':{
+                      'actions':[
+                        {
+                          'service': callService,
+                          'data': {
+                            'ams': 0,
+                            'tray': 2,
+                            'type': type,
+                            'color': color_name.replace('#', '')
+                          }
+                        },
+                        {
+                          'service': 'browser_mod.close_popup',
+                          'data': {
+                            'deviceID': 'this'
+                          }
+                        }
+                      ]
+                    }
+                  },
+                },
+                {
+                  'type': 'custom:button-card',
+                  'name': '4',
+                  'styles': {
+                    'card': [{'height': '100px'}],
+                  },
+                  'tap_action': {
+                    'action': 'call-service',
+                    'service': 'script.multi_tap_action',
+                    'service_data':{
+                      'actions':[
+                        {
+                          'service': callService,
+                          'data': {
+                            'ams': 0,
+                            'tray': 3,
+                            'type': type,
+                            'color': color_name.replace('#', '')
+                          }
+                        },
+                        {
+                          'service': 'browser_mod.close_popup',
+                          'data': {
+                            'deviceID': 'this'
+                          }
+                        }
+                      ]
+                    }
+                  },
+                },
+                ]
+              }
+            ] %}
+          {%- endif %}
+          {%- if states(ams_sensors[1]) != 'unknown' %}
+            {%- set cardAms = cardAms + [
+            {
+                  'type': 'markdown',
+                  'content': "### AMS 2:",
+                  'tap_action': {
+                    'action': 'none'
+                  }
+            },
+            {
+            'type': 'horizontal-stack',
+              'cards': [
+                {
+                  'type': 'custom:button-card',
+                  'name': '1',
+                  'styles': {
+                    'card': [{'height': '100px'}],
+                  },
+                  'tap_action': {
+                    'action': 'call-service',
+                    'service': 'script.multi_tap_action',
+                    'service_data':{
+                      'actions':[
+                        {
+                          'service': callService,
+                          'data': {
+                            'ams': 1,
+                            'tray': 0,
+                            'type': type,
+                            'color': color_name.replace('#', '')
+                          }
+                        },
+                        {
+                          'service': 'browser_mod.close_popup',
+                          'data': {
+                            'deviceID': 'this'
+                          }
+                        }
+                      ]
+                    }
+                  },
+                },
+                {
+                  'type': 'custom:button-card',
+                  'name': '2',
+                  'styles': {
+                    'card': [{'height': '100px'}],
+                  },
+                  'tap_action': {
+                    'action': 'call-service',
+                    'service': 'script.multi_tap_action',
+                    'service_data':{
+                      'actions':[
+                        {
+                          'service': callService,
+                          'data': {
+                            'ams': 1,
+                            'tray': 1,
+                            'type': type,
+                            'color': color_name.replace('#', '')
+                          }
+                        },
+                        {
+                          'service': 'browser_mod.close_popup',
+                          'data': {
+                            'deviceID': 'this'
+                          }
+                        }
+                      ]
+                    }
+                  },
+                },
+                {
+                  'type': 'custom:button-card',
+                  'name': '3',
+                  'styles': {
+                    'card': [{'height': '100px'}],
+                  },
+                  'tap_action': {
+                    'action': 'call-service',
+                    'service': 'script.multi_tap_action',
+                    'service_data':{
+                      'actions':[
+                        {
+                          'service': callService,
+                          'data': {
+                            'ams': 1,
+                            'tray': 2,
+                            'type': type,
+                            'color': color_name.replace('#', '')
+                          }
+                        },
+                        {
+                          'service': 'browser_mod.close_popup',
+                          'data': {
+                            'deviceID': 'this'
+                          }
+                        }
+                      ]
+                    }
+                  },
+                },
+                {
+                  'type': 'custom:button-card',
+                  'name': '4',
+                  'styles': {
+                    'card': [{'height': '100px'}],
+                  },
+                  'tap_action': {
+                    'action': 'call-service',
+                    'service': 'script.multi_tap_action',
+                    'service_data':{
+                      'actions':[
+                        {
+                          'service': callService,
+                          'data': {
+                            'ams': 1,
+                            'tray': 3,
+                            'type': type,
+                            'color': color_name.replace('#', '')
+                          }
+                        },
+                        {
+                          'service': 'browser_mod.close_popup',
+                          'data': {
+                            'deviceID': 'this'
+                          }
+                        }
+                      ]
+                    }
+                  },
+                },
+                ]
+              }
+            ] %}
+          {%- endif %}
+          {%- if states(ams_sensors[2]) != 'unknown' %}
+            {%- set cardAms = cardAms + [
+            {
+                  'type': 'markdown',
+                  'content': "### AMS 3:",
+                  'tap_action': {
+                    'action': 'none'
+                  }
+            },
+            {
+            'type': 'horizontal-stack',
+              'cards': [
+                {
+                  'type': 'custom:button-card',
+                  'name': '1',
+                  'styles': {
+                    'card': [{'height': '100px'}],
+                  },
+                  'tap_action': {
+                    'action': 'call-service',
+                    'service': 'script.multi_tap_action',
+                    'service_data':{
+                      'actions':[
+                        {
+                          'service': callService,
+                          'data': {
+                            'ams': 2,
+                            'tray': 0,
+                            'type': type,
+                            'color': color_name.replace('#', '')
+                          }
+                        },
+                        {
+                          'service': 'browser_mod.close_popup',
+                          'data': {
+                            'deviceID': 'this'
+                          }
+                        }
+                      ]
+                    }
+                  },
+                },
+                {
+                  'type': 'custom:button-card',
+                  'name': '2',
+                  'styles': {
+                    'card': [{'height': '100px'}],
+                  },
+                  'tap_action': {
+                    'action': 'call-service',
+                    'service': 'script.multi_tap_action',
+                    'service_data':{
+                      'actions':[
+                        {
+                          'service': callService,
+                          'data': {
+                            'ams': 2,
+                            'tray': 1,
+                            'type': type,
+                            'color': color_name.replace('#', '')
+                          }
+                        },
+                        {
+                          'service': 'browser_mod.close_popup',
+                          'data': {
+                            'deviceID': 'this'
+                          }
+                        }
+                      ]
+                    }
+                  },
+                },
+                {
+                  'type': 'custom:button-card',
+                  'name': '3',
+                  'styles': {
+                    'card': [{'height': '100px'}],
+                  },
+                  'tap_action': {
+                    'action': 'call-service',
+                    'service': 'script.multi_tap_action',
+                    'service_data':{
+                      'actions':[
+                        {
+                          'service': callService,
+                          'data': {
+                            'ams': 2,
+                            'tray': 2,
+                            'type': type,
+                            'color': color_name.replace('#', '')
+                          }
+                        },
+                        {
+                          'service': 'browser_mod.close_popup',
+                          'data': {
+                            'deviceID': 'this'
+                          }
+                        }
+                      ]
+                    }
+                  },
+                },
+                {
+                  'type': 'custom:button-card',
+                  'name': '4',
+                  'styles': {
+                    'card': [{'height': '100px'}],
+                  },
+                  'tap_action': {
+                    'action': 'call-service',
+                    'service': 'script.multi_tap_action',
+                    'service_data':{
+                      'actions':[
+                        {
+                          'service': callService,
+                          'data': {
+                            'ams': 2,
+                            'tray': 3,
+                            'type': type,
+                            'color': color_name.replace('#', '')
+                          }
+                        },
+                        {
+                          'service': 'browser_mod.close_popup',
+                          'data': {
+                            'deviceID': 'this'
+                          }
+                        }
+                      ]
+                    }
+                  },
+                },
+                ]
+              }
+            ] %}
+          {%- endif %}
+          {%- if states(ams_sensors[3]) != 'unknown' %}
+            {%- set cardAms = cardAms + [
+            {
+                  'type': 'markdown',
+                  'content': "### AMS 4:",
+                  'tap_action': {
+                    'action': 'none'
+                  }
+            },
+            {
+            'type': 'horizontal-stack',
+              'cards': [
+                {
+                  'type': 'custom:button-card',
+                  'name': '4',
+                  'styles': {
+                    'card': [{'height': '100px'}],
+                  },
+                  'tap_action': {
+                    'action': 'call-service',
+                    'service': 'script.multi_tap_action',
+                    'service_data':{
+                      'actions':[
+                        {
+                          'service': callService,
+                          'data': {
+                            'ams': 3,
+                            'tray': 0,
+                            'type': type,
+                            'color': color_name.replace('#', '')
+                          }
+                        },
+                        {
+                          'service': 'browser_mod.close_popup',
+                          'data': {
+                            'deviceID': 'this'
+                          }
+                        }
+                      ]
+                    }
+                  },
+                },
+                {
+                  'type': 'custom:button-card',
+                  'name': '2',
+                  'styles': {
+                    'card': [{'height': '100px'}],
+                  },
+                  'tap_action': {
+                    'action': 'call-service',
+                    'service': 'script.multi_tap_action',
+                    'service_data':{
+                      'actions':[
+                        {
+                          'service': callService,
+                          'data': {
+                            'ams': 3,
+                            'tray': 1,
+                            'type': type,
+                            'color': color_name.replace('#', '')
+                          }
+                        },
+                        {
+                          'service': 'browser_mod.close_popup',
+                          'data': {
+                            'deviceID': 'this'
+                          }
+                        }
+                      ]
+                    }
+                  },
+                },
+                {
+                  'type': 'custom:button-card',
+                  'name': '3',
+                  'styles': {
+                    'card': [{'height': '100px'}],
+                  },
+                  'tap_action': {
+                    'action': 'call-service',
+                    'service': 'script.multi_tap_action',
+                    'service_data':{
+                      'actions':[
+                        {
+                          'service': callService,
+                          'data': {
+                            'ams': 3,
+                            'tray': 2,
+                            'type': type,
+                            'color': color_name.replace('#', '')
+                          }
+                        },
+                        {
+                          'service': 'browser_mod.close_popup',
+                          'data': {
+                            'deviceID': 'this'
+                          }
+                        }
+                      ]
+                    }
+                  },
+                },
+                {
+                  'type': 'custom:button-card',
+                  'name': '4',
+                  'styles': {
+                    'card': [{'height': '100px'}],
+                  },
+                  'tap_action': {
+                    'action': 'call-service',
+                    'service': 'script.multi_tap_action',
+                    'service_data':{
+                      'actions':[
+                        {
+                          'service': callService,
+                          'data': {
+                            'ams': 3,
+                            'tray': 3,
+                            'type': type,
+                            'color': color_name.replace('#', '')
+                          }
+                        },
+                        {
+                          'service': 'browser_mod.close_popup',
+                          'data': {
+                            'deviceID': 'this'
+                          }
+                        }
+                      ]
+                    }
+                  },
+                },
+                ]
+              }
+            ] %}
+          {%- endif %}
+
         {%- if friendly_name is not none and state_attr(x.entity_id, 'type') == filterType and x.state != 'unavailable' and x.state | float > 0 -%}
           {%- set truncated_friendly_name = friendly_name.split(' ', 1)[1] if ' ' in friendly_name else friendly_name -%}
           {{
               {
                 'type': 'custom:mushroom-template-card',
                 'entity': x.entity_id,
-                'primary': friendly_name,
+                'primary': truncated_friendly_name,
                 'secondary': x.state + ' грамм',
                 'icon': 'phu:3d-filament',
                 'icon_color': color_name,
@@ -56,7 +616,12 @@ filter:
                           },
                           {
                               'type': 'custom:button-card',
-                              'name': '0',
+                              'name': 'Внешняя',
+                                'styles': {
+                                  'card': [{
+                                    'height': '50px'
+                                  }],
+                                },
                             'tap_action': {
                               'action': 'call-service',
                               'service': 'script.multi_tap_action',
@@ -83,117 +648,8 @@ filter:
                             }
                           },
                           {
-                            'type': 'horizontal-stack',
-                            'cards': [
-                              {
-                                'type': 'custom:button-card',
-                                'name': '1',
-                                'tap_action': {
-                                  'action': 'call-service',
-                                  'service': 'script.multi_tap_action',
-                                  'service_data':{
-                                    'actions':[
-                                      {
-                                        'service': callService,
-                                        'data': {
-                                          'ams': 0,
-                                          'tray': 0,
-                                          'type': type,
-                                          'color': color_name.replace('#', '')
-                                        }
-                                      },
-                                      {
-                                        'service': 'browser_mod.close_popup',
-                                        'data': {
-                                          'deviceID': 'this'
-                                        }
-                                      }
-                                    ]
-                                  }
-                                }
-                              },
-                              {
-                                'type': 'custom:button-card',
-                                'name': '2',
-                                'tap_action': {
-                                  'action': 'call-service',
-                                  'service': 'script.multi_tap_action',
-                                  'service_data':{
-                                    'actions':[
-                                      {
-                                        'service': callService,
-                                        'data': {
-                                          'ams': 0,
-                                          'tray': 1,
-                                          'type': type,
-                                          'color': color_name.replace('#', '')
-                                        }
-                                      },
-                                      {
-                                        'service': 'browser_mod.close_popup',
-                                        'data': {
-                                          'deviceID': 'this'
-                                        }
-                                      }
-                                    ]
-                                  }
-                                }
-                              },
-                              {
-                                'type': 'custom:button-card',
-                                'name': '3',
-                                'tap_action': {
-                                  'action': 'call-service',
-                                  'service': 'script.multi_tap_action',
-                                  'service_data':{
-                                    'actions':[
-                                      {
-                                        'service': callService,
-                                        'data': {
-                                          'ams': 0,
-                                          'tray': 2,
-                                          'type': type,
-                                          'color': color_name.replace('#', '')
-                                        }
-                                      },
-                                      {
-                                        'service': 'browser_mod.close_popup',
-                                        'data': {
-                                          'deviceID': 'this'
-                                        }
-                                      }
-                                    ]
-                                  }
-                                }
-                              },
-                              {
-                                'type': 'custom:button-card',
-                                'name': '4',
-                                'tap_action': {
-                                  'action': 'call-service',
-                                  'service': 'script.multi_tap_action',
-                                  'service_data':{
-                                    'actions':[
-                                      {
-                                        'service': callService,
-                                        'data': {
-                                          'ams': 0,
-                                          'tray': 3,
-                                          'type': type,
-                                          'color': color_name.replace('#', '')
-                                        }
-                                      },
-                                      {
-                                        'service': 'browser_mod.close_popup',
-                                        'data': {
-                                          'deviceID': 'this'
-                                        }
-                                      }
-                                    ]
-                                  }
-                                }
-                              }
-                            ]
+                            'type': 'vertical-stack',
+                            'cards': cardAms
                           }
                         ]
                       }
