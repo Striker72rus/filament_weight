@@ -30,7 +30,7 @@ filter:
         {%- set color_name_rgb = state_attr(x.entity_id, 'color_rgb') %}
         {%- set cardAms = [] %}
 
-        {%- if states(ams_sensors[0]) != 'unknown' %}
+        {%- if state_attr(ams_sensors[0],'tag_uid') != None %}
             {%- set cardAms = cardAms + [
             {
                   'type': 'markdown',
@@ -166,7 +166,7 @@ filter:
               }
             ] %}
           {%- endif %}
-          {%- if states(ams_sensors[1]) != 'unknown' %}
+          {%- if state_attr(ams_sensors[1],'tag_uid') != None %}
             {%- set cardAms = cardAms + [
             {
                   'type': 'markdown',
@@ -302,7 +302,7 @@ filter:
               }
             ] %}
           {%- endif %}
-          {%- if states(ams_sensors[2]) != 'unknown' %}
+          {%- if state_attr(ams_sensors[2],'tag_uid') != None %}
             {%- set cardAms = cardAms + [
             {
                   'type': 'markdown',
@@ -438,7 +438,7 @@ filter:
               }
             ] %}
           {%- endif %}
-          {%- if states(ams_sensors[3]) != 'unknown' %}
+          {%- if state_attr(ams_sensors[3],'tag_uid') != None %}
             {%- set cardAms = cardAms + [
             {
                   'type': 'markdown',
