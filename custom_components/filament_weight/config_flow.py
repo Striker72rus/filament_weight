@@ -38,12 +38,12 @@ def get_custom_brands(hass):
 def get_custom_type(hass):
     # Получение настроек интеграции из конфигурации Home Assistant
     config = hass.data.get(DOMAIN, {})
-    custom_brands = config.get("type", [])
-    if custom_brands:
-        if "unknown" not in custom_brands:
-            custom_brands.append("unknown")
-        return custom_brands
-    return BRAND_OPTIONS
+    custom_type = config.get("type", [])
+    if custom_type:
+        if "unknown" not in custom_type:
+            custom_type.append("unknown")
+        return custom_type
+    return TYPE_OPTIONS
 
 
 class ConfigFlowHandler(ConfigFlow, domain=DOMAIN):
