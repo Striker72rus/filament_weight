@@ -59,7 +59,7 @@ filter:
                             'ams': 0,
                             'tray': 0,
                             'type': type,
-                            'color': color_name
+                            'color': color_name.replace('#', '')
                           }
                         },
                         {
@@ -89,7 +89,7 @@ filter:
                             'ams': 0,
                             'tray': 1,
                             'type': type,
-                            'color': color_name
+                            'color': color_name.replace('#', '')
                           }
                         },
                         {
@@ -119,7 +119,7 @@ filter:
                             'ams': 0,
                             'tray': 2,
                             'type': type,
-                            'color': color_name
+                            'color': color_name.replace('#', '')
                           }
                         },
                         {
@@ -149,7 +149,7 @@ filter:
                             'ams': 0,
                             'tray': 3,
                             'type': type,
-                            'color': color_name
+                            'color': color_name.replace('#', '')
                           }
                         },
                         {
@@ -195,7 +195,7 @@ filter:
                             'ams': 1,
                             'tray': 0,
                             'type': type,
-                            'color': color_name
+                            'color': color_name.replace('#', '')
                           }
                         },
                         {
@@ -225,7 +225,7 @@ filter:
                             'ams': 1,
                             'tray': 1,
                             'type': type,
-                            'color': color_name
+                            'color': color_name.replace('#', '')
                           }
                         },
                         {
@@ -255,7 +255,7 @@ filter:
                             'ams': 1,
                             'tray': 2,
                             'type': type,
-                            'color': color_name
+                            'color': color_name.replace('#', '')
                           }
                         },
                         {
@@ -285,7 +285,7 @@ filter:
                             'ams': 1,
                             'tray': 3,
                             'type': type,
-                            'color': color_name
+                            'color': color_name.replace('#', '')
                           }
                         },
                         {
@@ -331,7 +331,7 @@ filter:
                             'ams': 2,
                             'tray': 0,
                             'type': type,
-                            'color': color_name
+                            'color': color_name.replace('#', '')
                           }
                         },
                         {
@@ -361,7 +361,7 @@ filter:
                             'ams': 2,
                             'tray': 1,
                             'type': type,
-                            'color': color_name
+                            'color': color_name.replace('#', '')
                           }
                         },
                         {
@@ -391,7 +391,7 @@ filter:
                             'ams': 2,
                             'tray': 2,
                             'type': type,
-                            'color': color_name
+                            'color': color_name.replace('#', '')
                           }
                         },
                         {
@@ -421,7 +421,7 @@ filter:
                             'ams': 2,
                             'tray': 3,
                             'type': type,
-                            'color': color_name
+                            'color': color_name.replace('#', '')
                           }
                         },
                         {
@@ -467,7 +467,7 @@ filter:
                             'ams': 3,
                             'tray': 0,
                             'type': type,
-                            'color': color_name
+                            'color': color_name.replace('#', '')
                           }
                         },
                         {
@@ -497,7 +497,7 @@ filter:
                             'ams': 3,
                             'tray': 1,
                             'type': type,
-                            'color': color_name
+                            'color': color_name.replace('#', '')
                           }
                         },
                         {
@@ -527,7 +527,7 @@ filter:
                             'ams': 3,
                             'tray': 2,
                             'type': type,
-                            'color': color_name
+                            'color': color_name.replace('#', '')
                           }
                         },
                         {
@@ -557,7 +557,7 @@ filter:
                             'ams': 3,
                             'tray': 3,
                             'type': type,
-                            'color': color_name
+                            'color': color_name.replace('#', '')
                           }
                         },
                         {
@@ -604,7 +604,7 @@ filter:
                                 'type': 'custom:button-card',
                                 'name': "Тип: " +type + "<br>Цвет: " + color_name,
                                 'color_type': "card",
-                                'color': color_name,
+                                'color': color_name.replace('#', ''),
                                 'tap_action': 'none'
                           },
                           {
@@ -633,7 +633,7 @@ filter:
                                       'ams': 255,
                                       'tray': 254,
                                       'type': type,
-                                      'color': color_name
+                                      'color': color_name.replace('#', '')
                                     }
                                   },
                                   {
